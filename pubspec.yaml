@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   google_fonts:
   material_floating_search_bar: 
+  custom_bottom_navigation_bar: ^0.0.1
+  curved_navigation_bar: ^0.3.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -63,6 +65,18 @@ flutter:
     - assets/images/tie.png
     - assets/images/whitefounder.png
     - assets/images/indian.png
+    - assets/images/logoIcon.png
+    - assets/images/girl1.png
+    - assets/images/girl2.png
+    - assets/images/boy1.png
+    - assets/images/boy2.png
+    - assets/images/resource.png
+    - assets/images/user.png
+    - assets/images/Message.png
+    - assets/images/database.png
+    - assets/images/BG.png
+    - assets/images/colorado.png
+    - assets/images/firstTime.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

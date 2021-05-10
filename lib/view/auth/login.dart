@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:founderslink/utils/ui/founderlinklayout.dart';
 import 'package:founderslink/view/auth/register.dart';
+import 'package:founderslink/view/pages/chat.dart';
 import 'package:founderslink/view/pages/chatHomepage.dart';
 import 'package:founderslink/view/pages/completeProfile.dart';
 import 'package:founderslink/widgets/Button.dart';
@@ -118,7 +119,7 @@ class _LoginState extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ChatHomePage())),
+                                      builder: (context) => Chat())),
                             }),
                   ),
                   Container(

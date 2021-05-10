@@ -26,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
       // margin: EdgeInsets.only(top: 50),
       child: FloatingSearchBar(
         hint: 'Search Chat Groups...',
-        height: 60,
+        height: 50,
         hintStyle: GoogleFonts.poppins(color: Color(0xffB8B8B8), fontSize: 15),
         openAxisAlignment: 0.0,
         maxWidth: 380,
