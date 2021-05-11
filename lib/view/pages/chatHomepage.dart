@@ -41,6 +41,13 @@ class _ChatHomePageState extends State<ChatHomePage> {
                   ),
                   Row(
                     children: [
+                      // Container(
+                      //   child: Icon(
+                      //     Icons.message_rounded,
+                      //     color: Color(0xff6D6D6D),
+                      //     size: 30,
+                      //   ),
+                      // ),
                       Container(
                         child: Icon(
                           Icons.more_vert_outlined,

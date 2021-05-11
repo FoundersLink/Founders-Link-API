@@ -1,12 +1,8 @@
-import 'package:custom_bottom_navigation_bar/custom_bottom_navigation_bar.dart';
-import 'package:custom_bottom_navigation_bar/custom_bottom_navigation_bar_item.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:founderslink/utils/ui/fab_bottom_app_bar.dart';
 import 'package:founderslink/utils/ui/fab_with_icons.dart';
 import 'package:founderslink/utils/ui/layout.dart';
-import 'package:founderslink/view/auth/register.dart';
-import 'package:founderslink/view/auth/settingEmail.dart';
+
 import 'package:founderslink/view/pages/Home.dart';
 import 'package:founderslink/view/pages/chatHomepage.dart';
 import 'package:founderslink/view/pages/companies.dart';
@@ -89,14 +85,22 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
           ),
         );
       },
-      child: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'FounderLink',
-        child: ImageIcon(AssetImage(
-          'assets/images/logoIcon.png',
-        )),
-        elevation: 2.0,
-        backgroundColor: Colors.black,
+      child: Container(
+        margin: EdgeInsets.only(top: 30),
+        width: 60,
+        height: 80,
+        child: FloatingActionButton(
+          onPressed: () {},
+          tooltip: 'FounderLink',
+          child: ImageIcon(
+            AssetImage(
+              'assets/images/logoIcon.png',
+            ),
+            size: 50,
+          ),
+          elevation: 2.0,
+          backgroundColor: Colors.black,
+        ),
       ),
     );
   }

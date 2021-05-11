@@ -77,6 +77,22 @@ flutter:
     - assets/images/BG.png
     - assets/images/colorado.png
     - assets/images/firstTime.png
+    - assets/images/sarah.png
+    - assets/images/tiffany.png
+    - assets/images/Fred.png
+    - assets/images/Alice.png
+    - assets/images/James.png
+    - assets/images/word.png
+    - assets/images/pdf.png
+    - assets/images/excel.png
+    - assets/images/Tallfred.png
+    - assets/images/Talljames.png
+    - assets/images/Talltiffany.png
+    - assets/images/Tallalice.png
+    - assets/images/founderlink.png
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
