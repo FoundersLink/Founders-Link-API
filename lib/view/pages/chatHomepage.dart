@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:founderslink/models/niche.dart';
 import 'package:founderslink/utils/ui/activeLobbies.dart';
+import 'package:founderslink/utils/ui/drawer.dart';
 import 'package:founderslink/utils/ui/founderlinklayout.dart';
 import 'package:founderslink/widgets/Search.dart';
 import 'package:founderslink/widgets/joinButton.dart';
@@ -22,9 +23,18 @@ class _ChatHomePageState extends State<ChatHomePage> {
     Niche(nicheTypes: "👩💼 womenfounder"),
     Niche(nicheTypes: "‍👨🏾📈BlackVC"),
   ];
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: SafeArea(
+        child: Theme(
+          data: ThemeData(canvasColor: Color(0xffFBFBFB)),
+          child: EndDrawer(),
+        ),
+      ),
       body: Stack(
         children: [
           FounderLinkLayout(),
@@ -34,9 +44,14 @@ class _ChatHomePageState extends State<ChatHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    child: Icon(
-                      Icons.menu,
-                      size: 30,
+                    child: InkWell(
+                      child: Icon(
+                        Icons.menu,
+                        size: 30,
+                      ),
+                      onTap: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
                     ),
                   ),
                   Row(

@@ -95,6 +95,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
   Color _color = Colors.red;
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: SingleChildScrollView(
         child: Stack(
           children: [
