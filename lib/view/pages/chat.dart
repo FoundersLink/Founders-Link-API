@@ -9,6 +9,7 @@ import 'package:founderslink/view/pages/companies.dart';
 import 'package:founderslink/view/pages/people.dart';
 import 'package:founderslink/view/pages/resource.dart';
 
+
 class Chat extends StatefulWidget {
   Chat({Key key, this.title}) : super(key: key);
 

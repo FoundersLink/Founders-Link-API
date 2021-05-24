@@ -9,6 +9,7 @@ import 'package:founderslink/view/pages/completeProfile.dart';
 import 'package:founderslink/widgets/Button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,25 +17,21 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-<<<<<<< HEAD
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController pass = TextEditingController();
   bool autoValidate = false;
-  @override
-=======
   bool loading = false;
   bool agree = false;
   bool hasError = false;
   var errors;
->>>>>>> updates
-  void handlePressedRegister() async {
+  void handlePressedLogin() async {
     setState(() {
       loading = true;
     });
     try {
       var baseUrl = 'https://soma-tec.herokuapp.com';
-      var url = '$baseUrl/auth/signup';
+      var url = '$baseUrl/user/login';
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -42,10 +39,8 @@ class _LoginState extends State<Login> {
       var response = await http.post(url,
           headers: requestHeaders,
           body: jsonEncode(<String, String>{
-            'firstName': '',
-            'lastName': '',
-            'email': '',
-            'password': '',
+            'email': email.text.toString(),
+            'password': pass.text.toString(),
           }));
       Map<String, dynamic> body = jsonDecode(response.body);
       if (response.statusCode == 409) {
@@ -67,6 +62,10 @@ class _LoginState extends State<Login> {
           hasError = false;
         });
         if (response.statusCode == 201) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          setState(() {
+            prefs.setString('token', body['data']);
+          });
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Chat()));
         }
@@ -187,12 +186,7 @@ class _LoginState extends State<Login> {
                           ),
                           onPressed: () => {
                                 if (formKey.currentState.validate())
-                                  {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Chat())),
-                                  }
+                                  handlePressedLogin()
                                 else
                                   {
                                     setState(() {

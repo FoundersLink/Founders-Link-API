@@ -3,6 +3,8 @@ import 'package:founderslink/view/pages/chatLobby.dart';
 import 'package:founderslink/widgets/joinButton.dart';
 import 'package:founderslink/widgets/startsButton.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ActiveLobbies extends StatefulWidget {
   @override
@@ -10,6 +12,9 @@ class ActiveLobbies extends StatefulWidget {
 }
 
 class _ActiveLobbiesState extends State<ActiveLobbies> {
+  String _userName = "jaja";
+  String _channel = "randomChannel";
+  ClientRole _role = ClientRole.Audience;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -89,11 +94,16 @@ class _ActiveLobbiesState extends State<ActiveLobbies> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            await _handleMicPermission();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChatLobby()));
+                                    builder: (context) => ChatLobby(
+                                          channel: _channel,
+                                          userName: _userName,
+                                          role: _role,
+                                        )));
                           }),
                     )
                   ],

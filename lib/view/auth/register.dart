@@ -7,6 +7,7 @@ import 'package:founderslink/view/auth/checkEmail.dart';
 import 'package:founderslink/widgets/Button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -14,7 +15,6 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-<<<<<<< HEAD
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
@@ -23,21 +23,23 @@ class _RegisterState extends State<Register> {
   final TextEditingController _lastName = TextEditingController();
 
   bool autoValidate = false;
-  @override
-
-=======
   bool loading = false;
   bool agree = false;
   bool hasError = false;
   var errors;
->>>>>>> updates
+
   void handlePressedRegister() async {
     setState(() {
       loading = true;
     });
+    print(_lastName.text.toString());
+    print(_firstName.text.toString());
+    print(_email.text.toString());
+    print(_pass.text.toString());
+    loading = false;
     try {
       var baseUrl = 'https://soma-tec.herokuapp.com';
-      var url = '$baseUrl/auth/signup';
+      var url = '$baseUrl/user/signup';
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -45,12 +47,15 @@ class _RegisterState extends State<Register> {
       var response = await http.post(url,
           headers: requestHeaders,
           body: jsonEncode(<String, String>{
-            'firstName': '',
-            'lastName': '',
-            'email': '',
-            'password': '',
+            'firstName': _firstName.text.toString(),
+            'lastName': _lastName.text.toString(),
+            "username": _firstName.text.toString() + _lastName.text.toString(),
+            "phoneNumber": "+250782979784",
+            'email': _email.text.toString(),
+            'password': _pass.text.toString(),
           }));
       Map<String, dynamic> body = jsonDecode(response.body);
+      print(response.body);
       if (response.statusCode == 409) {
         setState(() {
           loading = false;
@@ -70,6 +75,10 @@ class _RegisterState extends State<Register> {
           hasError = false;
         });
         if (response.statusCode == 201) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          setState(() {
+          prefs.setString('token', body['token']);
+        });
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => CheckEmail()));
         }
@@ -307,19 +316,18 @@ class _RegisterState extends State<Register> {
                         Container(
                           margin: EdgeInsets.only(top: 30),
                           child: MyButton(
-                              child: Text(
-                                "Continue",
-                                style: GoogleFonts.poppins(fontSize: 18),
-                              ),
+                              child: loading
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : Text(
+                                      "Continue",
+                                      style: GoogleFonts.poppins(fontSize: 18),
+                                    ),
                               onPressed: () => {
                                     if (formKey.currentState.validate())
-                                      {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CheckEmail())),
-                                      }
+                                      handlePressedRegister()
                                     else
                                       {
                                         setState(() {
