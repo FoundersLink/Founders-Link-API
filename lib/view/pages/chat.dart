@@ -58,6 +58,7 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
         // centerItemText: 'A',
         color: Colors.grey,
         selectedColor: Colors.black,
+        height: 80,
         notchedShape: CircularNotchedRectangle(),
         onTabSelected: _selectedTab,
         items: [
