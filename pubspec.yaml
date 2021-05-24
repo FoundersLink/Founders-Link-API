@@ -27,6 +27,7 @@ dependencies:
   material_floating_search_bar: 
   custom_bottom_navigation_bar: ^0.0.1
   curved_navigation_bar: ^0.3.0
+  http: ^0.12.2
 
 
   # The following adds the Cupertino Icons font to your application.

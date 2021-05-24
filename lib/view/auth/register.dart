@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:founderslink/utils/mixins/validation.dart';
@@ -5,6 +6,7 @@ import 'package:founderslink/utils/ui/founderlinklayout.dart';
 import 'package:founderslink/view/auth/checkEmail.dart';
 import 'package:founderslink/widgets/Button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+<<<<<<< HEAD
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
@@ -22,12 +25,18 @@ class _RegisterState extends State<Register> {
   bool autoValidate = false;
   @override
 
+=======
+  bool loading = false;
+  bool agree = false;
+  bool hasError = false;
+  var errors;
+>>>>>>> updates
   void handlePressedRegister() async {
     setState(() {
       loading = true;
     });
     try {
-      var baseUrl = 'https://soma-tec.herokuapp.com/';
+      var baseUrl = 'https://soma-tec.herokuapp.com';
       var url = '$baseUrl/auth/signup';
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
@@ -36,14 +45,14 @@ class _RegisterState extends State<Register> {
       var response = await http.post(url,
           headers: requestHeaders,
           body: jsonEncode(<String, String>{
-            'name': '$name',
-            'phoneNumber': '$phoneNumber',
-            'password': '$password'
+            'firstName': '',
+            'lastName': '',
+            'email': '',
+            'password': '',
           }));
       Map<String, dynamic> body = jsonDecode(response.body);
       if (response.statusCode == 409) {
         setState(() {
-          phoneErr = body['message'];
           loading = false;
           errors = '';
           hasError = false;
@@ -62,17 +71,15 @@ class _RegisterState extends State<Register> {
         });
         if (response.statusCode == 201) {
           Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    // VerifyView(phoneNumber: phoneNumber.toString())),
-          );
+              context, MaterialPageRoute(builder: (context) => CheckEmail()));
         }
       }
     } catch (err) {
       print(err);
     }
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
