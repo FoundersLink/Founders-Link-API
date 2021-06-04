@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:founderslink/room/room_screen.dart';
 import 'package:founderslink/view/pages/chatLobby.dart';
 import 'package:founderslink/widgets/joinButton.dart';
 import 'package:founderslink/widgets/startsButton.dart';

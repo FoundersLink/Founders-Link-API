@@ -3,9 +3,13 @@ import 'package:founderslink/models/niche.dart';
 import 'package:founderslink/utils/ui/activeLobbies.dart';
 import 'package:founderslink/utils/ui/drawer.dart';
 import 'package:founderslink/utils/ui/founderlinklayout.dart';
+import 'package:founderslink/view/pages/Home.dart';
 import 'package:founderslink/widgets/Search.dart';
 import 'package:founderslink/widgets/joinButton.dart';
+import 'package:founderslink/widgets/startCht.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatHomePage extends StatefulWidget {
   @override
@@ -24,11 +28,21 @@ class _ChatHomePageState extends State<ChatHomePage> {
     Niche(nicheTypes: "‍👨🏾📈BlackVC"),
   ];
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool openDrawer = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      floatingActionButton: Container(
+          child: InkWell(
+        child: Image.asset("assets/images/floating.png"),
+        onTap: () {
+          setState(() {
+            openDrawer = true;
+          });
+        },
+      )),
       drawer: SafeArea(
         child: Theme(
           data: ThemeData(canvasColor: Color(0xffFBFBFB)),
@@ -38,6 +52,79 @@ class _ChatHomePageState extends State<ChatHomePage> {
       body: Stack(
         children: [
           FounderLinkLayout(),
+          Container(
+            padding: EdgeInsets.only(top: 20),
+            margin: EdgeInsets.only(left: 80),
+            child: Visibility(
+              visible: openDrawer,
+              child: Container(
+                height: 130,
+                width: 230,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    color: Colors.white,
+                    boxShadow: [
+                      new BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 10.0,
+                          offset: Offset(0, 5)),
+                    ]),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.black12,
+                        child: InkWell(
+                          child: Icon(
+                            Icons.close,
+                            color: Color(0xff5FD3FF),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              openDrawer = false;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                        child: Row(
+                      children: [
+                        Container(
+                          child: Image.asset("assets/images/theteam.png"),
+                        ),
+                        Container(
+                            child: Text(
+                          "Start Public Lobby",
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                        )),
+                      ],
+                    )),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                        child: Row(
+                      children: [
+                        Container(
+                          child: Image.asset("assets/images/private.png"),
+                        ),
+                        Container(
+                            child: Text(
+                          " Start Private Lobby",
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                        )),
+                      ],
+                    ))
+                  ],
+                ),
+              ),
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(top: 95, left: 10, right: 10),
             child: Row(
@@ -56,13 +143,6 @@ class _ChatHomePageState extends State<ChatHomePage> {
                   ),
                   Row(
                     children: [
-                      // Container(
-                      //   child: Icon(
-                      //     Icons.message_rounded,
-                      //     color: Color(0xff6D6D6D),
-                      //     size: 30,
-                      //   ),
-                      // ),
                       Container(
                         child: Icon(
                           Icons.more_vert_outlined,
@@ -91,12 +171,27 @@ class _ChatHomePageState extends State<ChatHomePage> {
                       Column(
                         children: [
                           Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "📱Technology",
-                              style: GoogleFonts.poppins(
-                                fontSize: 30,
-                              ),
+                            margin: EdgeInsets.only(left: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Image.asset(
+                                    "assets/images/myPitch.png",
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Recruiting",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 30,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Container(

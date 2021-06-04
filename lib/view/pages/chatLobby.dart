@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:founderslink/utils/mixins/agoraSettings.dart';
@@ -7,6 +7,8 @@ import 'package:agora_rtm/agora_rtm.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'package:founderslink/config/settings.dart';
+import 'package:founderslink/models/Users.dart';
 
 class ChatLobby extends StatefulWidget {
   final String channel;
@@ -376,6 +378,65 @@ class _ChatLobbyState extends State<ChatLobby> {
     //   print(err);
     // }
   }
+  final List _users = [];
+  bool muted = false;
+  RtcEngine _engine;
+  bool isMute = true;
+  bool isModerator = false;
+
+  @override
+  void dispose() {
+    _engine.leaveChannel();
+    _engine.destroy();
+    super.dispose();
+  }
+
+  Future<void> initialize() async {
+    await _initAgoraRtcEngine();
+    _addAgoraEventHandlers();
+    await _engine.joinChannel(Token, channelName, null, 0);
+  }
+
+  Future<void> _initAgoraRtcEngine() async {
+    _engine = await RtcEngine.create(APP_ID);
+    await _engine.enableAudio();
+    await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
+  }
+
+  void _addAgoraEventHandlers() {
+    _engine.setEventHandler(RtcEngineEventHandler(
+      error: (code) {
+        setState(() {
+          print('onError: $code');
+        });
+      },
+      joinChannelSuccess: (channel, uid, elapsed) {
+        print('onJoinChannel: $channel, uid: $uid');
+      },
+      leaveChannel: (stats) {
+        setState(() {
+          print('onLeaveChannel');
+          _users.clear();
+        });
+      },
+      userJoined: (uid, elapsed) {
+        print('userJoined: $uid');
+        setState(() {
+          _users.add(uid);
+        });
+      },
+    ));
+  }
+
+  List<Users> users = [
+    Users(users: "Sarah", profile: "assets/images/sarah.png"),
+    Users(users: "David", profile: "assets/images/Alice.png"),
+    Users(users: "Andrew", profile: "assets/images/James.png"),
+    Users(users: "Paccy", profile: "assets/images/James.png"),
+    Users(users: " Charles", profile: "assets/images/tiffany.png"),
+    Users(users: "‍Odda", profile: "assets/images/tiffany.png"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -410,14 +471,34 @@ class _ChatLobbyState extends State<ChatLobby> {
                       margin: EdgeInsets.only(left: 10, top: 5),
                       child: Column(
                         children: [
-                          Container(
-                            child: Image.asset("assets/images/sarah.png"),
+                          GestureDetector(
+                            child: Stack(
+                              children: [
+                                Container(
+                                  child: Image.asset(users[1].profile),
+                                ),
+                                Visibility(
+                                  visible: true,
+                                  child: mute(isMute),
+                                )
+                              ],
+                            ),
                           ),
                           Container(
-                            child: Text(
-                              "Sarah",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 10, color: Color(0xff6D6D6D)),
+                            child: Stack(
+                              children: [
+                                Text(
+                                  users[0].users,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 10,
+                                      color: Color(0xff6D6D6D),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Visibility(
+                                  visible: true,
+                                  child: moderator(isModerator),
+                                )
+                              ],
                             ),
                           )
                         ],
@@ -428,15 +509,17 @@ class _ChatLobbyState extends State<ChatLobby> {
                       child: Column(
                         children: [
                           Container(
-                            child: Image.asset("assets/images/Alice.png"),
+                            child: Image.asset(
+                              "assets/images/Alice.png",
+                            ),
                           ),
                           Container(
                             child: Text(
-                              "Alice",
+                              users[1].users,
                               style: GoogleFonts.poppins(
                                   fontSize: 10, color: Color(0xff6D6D6D)),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -449,7 +532,7 @@ class _ChatLobbyState extends State<ChatLobby> {
                           ),
                           Container(
                             child: Text(
-                              "Fred",
+                              users[3].users,
                               style: GoogleFonts.poppins(
                                   fontSize: 10, color: Color(0xff6D6D6D)),
                             ),
@@ -487,7 +570,22 @@ class _ChatLobbyState extends State<ChatLobby> {
                               style: GoogleFonts.poppins(
                                   fontSize: 10, color: Color(0xff6D6D6D)),
                             ),
-                          )
+                          ),
+                          SizedBox(height: 10),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     moderator(isModerator),
+                          //     Text(
+                          //       users[0].users.split(' ')[0],
+                          //       overflow: TextOverflow.ellipsis,
+                          //       textAlign: TextAlign.center,
+                          //       style: TextStyle(
+                          //         fontWeight: FontWeight.bold,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     )
@@ -609,7 +707,7 @@ class _ChatLobbyState extends State<ChatLobby> {
               //     ],
               //   ),
               // ),
-              
+
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(left: 10, top: 10),
@@ -799,7 +897,9 @@ class _ChatLobbyState extends State<ChatLobby> {
                                 width: 1,
                                 style: BorderStyle.solid),
                             borderRadius: BorderRadius.circular(5)),
-                        onPressed: () => {},
+                        onPressed: () => {
+                          Navigator.pop(context),
+                        },
                       ),
                     ),
                     Container(
@@ -847,5 +947,42 @@ class _ChatLobbyState extends State<ChatLobby> {
         ),
       ),
     );
+  }
+
+  Widget mute(bool isMute) {
+    return Positioned(
+      right: 0,
+      bottom: 0,
+      child: isMute
+          ? Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    offset: Offset(0, 1),
+                  )
+                ],
+              ),
+              child: Icon(Icons.mic_off),
+            )
+          : Container(),
+    );
+  }
+
+  Widget moderator(bool isModerator) {
+    return isModerator
+        ? Container(
+            margin: const EdgeInsets.only(right: 5),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Icon(Icons.star, color: Colors.white, size: 12),
+          )
+        : Container();
   }
 }

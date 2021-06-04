@@ -29,13 +29,21 @@ dependencies:
   curved_navigation_bar: ^0.3.0
   http: ^0.12.2
   shared_preferences: ^0.5.10
+  agora_rtc_engine: ^3.2.1
+  permission_handler: ^5.0.0
+  pull_to_refresh: ^1.6.4
+  flutter_boom_menu: ^1.0.2
+  flutter_speed_dial: ^1.2.1
+  syncfusion_flutter_sliders: ^18.1.42-beta
+
+  
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.1
-  permission_handler: ^5.1.0+2
-  agora_rtc_engine: ^3.2.1
+  
+
   agora_rtm: ^0.9.14
 
 dev_dependencies:
@@ -84,6 +92,8 @@ flutter:
     - assets/images/firstTime.png
     - assets/images/sarah.png
     - assets/images/tiffany.png
+    - assets/images/private.png
+    - assets/images/theteam.png
     - assets/images/Fred.png
     - assets/images/Alice.png
     - assets/images/James.png
@@ -96,10 +106,18 @@ flutter:
     - assets/images/Tallalice.png
     - assets/images/founderlink.png
     - assets/images/menu.png
+    - assets/images/recruit.png
+    - assets/images/pitch.png
+    - assets/images/saza.png
+    - assets/images/shake.png
+    - assets/images/beta.png
+    - assets/images/myPitch.png
+    - assets/images/peopleadd.png
     - assets/images/jasmine.png
     - assets/images/green.png
     - assets/images/logocircle.png
     - assets/images/arrowUp.png
+    - assets/images/floating.png
     - assets/images/group.png
     - assets/images/anonymous.png
     - assets/images/blackvs.png

@@ -3,6 +3,7 @@ import 'package:founderslink/models/niche.dart';
 import 'package:founderslink/utils/ui/founderlinklayout.dart';
 import 'package:founderslink/view/auth/checkEmail.dart';
 import 'package:founderslink/view/auth/login.dart';
+import 'package:founderslink/view/pages/chatFilter.dart';
 import 'package:founderslink/widgets/Button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -95,7 +96,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
   Color _color = Colors.red;
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -106,7 +106,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   "assets/images/logoFounder.png",
                   width: 650,
                 )),
-          
             Container(
               margin: EdgeInsets.only(left: 10, top: 110),
               child: Text(
@@ -148,10 +147,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                             Container(
                               child: filterChipWidget(
                                   chipName: 'assets/images/people.png'),
-                              
                             ),
-                           
-
                             Container(
                               margin: EdgeInsets.only(top: 5),
                               child: Text(
@@ -181,7 +177,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                             Container(
                               child: filterChipWidget(
                                   chipName: 'assets/images/gentle.png'),
-                              
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 5),
@@ -916,7 +911,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Login())),
+                                      builder: (context) => ChatFilter())),
                             }),
                   )
                 ],
