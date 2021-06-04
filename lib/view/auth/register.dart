@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:founderslink/utils/mixins/validation.dart';
@@ -5,6 +6,8 @@ import 'package:founderslink/utils/ui/founderlinklayout.dart';
 import 'package:founderslink/view/auth/checkEmail.dart';
 import 'package:founderslink/widgets/Button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -20,6 +23,70 @@ class _RegisterState extends State<Register> {
   final TextEditingController _lastName = TextEditingController();
 
   bool autoValidate = false;
+  bool loading = false;
+  bool agree = false;
+  bool hasError = false;
+  var errors;
+
+  void handlePressedRegister() async {
+    setState(() {
+      loading = true;
+    });
+    print(_lastName.text.toString());
+    print(_firstName.text.toString());
+    print(_email.text.toString());
+    print(_pass.text.toString());
+    try {
+      var baseUrl = 'https://soma-tec.herokuapp.com';
+      var url = '$baseUrl/user/signup';
+      Map<String, String> requestHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      var response = await http.post(url,
+          headers: requestHeaders,
+          body: jsonEncode(<String, String>{
+            'firstName': _firstName.text.toString(),
+            'lastName': _lastName.text.toString(),
+            "username": _firstName.text.toString() + _lastName.text.toString(),
+            "phoneNumber": "+250782979784",
+            'email': _email.text.toString(),
+            'password': _pass.text.toString(),
+          }));
+      Map<String, dynamic> body = jsonDecode(response.body);
+      print(response.body);
+      if (response.statusCode == 409) {
+        setState(() {
+          loading = false;
+          errors = '';
+          hasError = false;
+        });
+      } else if (response.statusCode == 400) {
+        for (var i = 0; i <= body['message'].length - 1; i++) {
+          setState(() {
+            errors = body['message'][i];
+            loading = false;
+            hasError = false;
+          });
+        }
+      } else {
+        setState(() {
+          hasError = false;
+        });
+        if (response.statusCode == 201) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          setState(() {
+            prefs.setString('token', body['token']);
+          });
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CheckEmail()));
+        }
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -248,19 +315,18 @@ class _RegisterState extends State<Register> {
                         Container(
                           margin: EdgeInsets.only(top: 30),
                           child: MyButton(
-                              child: Text(
-                                "Continue",
-                                style: GoogleFonts.poppins(fontSize: 18),
-                              ),
+                              child: loading
+                                  ? CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    )
+                                  : Text(
+                                      "Continue",
+                                      style: GoogleFonts.poppins(fontSize: 18),
+                                    ),
                               onPressed: () => {
                                     if (formKey.currentState.validate())
-                                      {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CheckEmail())),
-                                      }
+                                      handlePressedRegister()
                                     else
                                       {
                                         setState(() {

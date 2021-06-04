@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:founderslink/utils/mixins/validation.dart';
 import 'package:founderslink/utils/ui/founderlinklayout.dart';
@@ -7,6 +8,8 @@ import 'package:founderslink/view/pages/chatHomepage.dart';
 import 'package:founderslink/view/pages/completeProfile.dart';
 import 'package:founderslink/widgets/Button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -18,6 +21,62 @@ class _LoginState extends State<Login> {
   final TextEditingController email = TextEditingController();
   final TextEditingController pass = TextEditingController();
   bool autoValidate = false;
+  bool loading = false;
+  bool agree = false;
+  bool hasError = false;
+  var errors;
+  void handlePressedLogin() async {
+    Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Chat()));
+    setState(() {
+      loading = true;
+    });
+    try {
+      var baseUrl = 'https://soma-tec.herokuapp.com';
+      var url = '$baseUrl/user/login';
+      Map<String, String> requestHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      var response = await http.post(url,
+          headers: requestHeaders,
+          body: jsonEncode(<String, String>{
+            'email': email.text.toString(),
+            'password': pass.text.toString(),
+          }));
+      Map<String, dynamic> body = jsonDecode(response.body);
+      if (response.statusCode == 409) {
+        setState(() {
+          loading = false;
+          errors = '';
+          hasError = false;
+        });
+      } else if (response.statusCode == 400) {
+        for (var i = 0; i <= body['message'].length - 1; i++) {
+          setState(() {
+            errors = body['message'][i];
+            loading = false;
+            hasError = false;
+          });
+        }
+      } else {
+        setState(() {
+          hasError = false;
+        });
+        if (response.statusCode == 201) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          setState(() {
+            prefs.setString('token', body['data']);
+          });
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Chat()));
+        }
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,12 +188,7 @@ class _LoginState extends State<Login> {
                           ),
                           onPressed: () => {
                                 if (formKey.currentState.validate())
-                                  {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Chat())),
-                                  }
+                                  handlePressedLogin()
                                 else
                                   {
                                     setState(() {
