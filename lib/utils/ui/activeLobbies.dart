@@ -4,10 +4,7 @@ import 'package:founderslink/view/pages/chatLobby.dart';
 import 'package:founderslink/widgets/joinButton.dart';
 import 'package:founderslink/widgets/startsButton.dart';
 import 'package:google_fonts/google_fonts.dart';
-<<<<<<< HEAD
 import 'package:agora_rtc_engine/rtc_engine.dart';
-=======
->>>>>>> 7a26060 (added new pages)
 import 'package:permission_handler/permission_handler.dart';
 
 class ActiveLobbies extends StatefulWidget {
@@ -99,11 +96,7 @@ class _ActiveLobbiesState extends State<ActiveLobbies> {
                                 color: Colors.white),
                           ),
                           onPressed: () async {
-<<<<<<< HEAD
                             await _handleMicPermission();
-=======
-                            await Permission.microphone.request();
->>>>>>> 7a26060 (added new pages)
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
