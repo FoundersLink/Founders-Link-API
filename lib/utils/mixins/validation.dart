@@ -26,16 +26,16 @@ validateEmail(value) {
 var pass;
 validatePassword(value) {
   pass = value;
-  Pattern pattern =
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$';
-  RegExp regex = new RegExp(pattern);
-  if (value.isEmpty) {
-    return 'Please enter your password';
-  } else if (!regex.hasMatch(value) || value.isEmpty) {
-    return 'Please enter strong password with alteast one upper letter, number and special character';
-  } else if (value.length < 6) {
-    return "Password must be atleast 6 characters long or more";
-  }
+  // Pattern pattern =
+  //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$';
+  // RegExp regex = new RegExp(pattern);
+  // if (value.isEmpty) {
+  //   return 'Please enter your password';
+  // } else if (!regex.hasMatch(value) || value.isEmpty) {
+  //   return 'Please enter strong password with alteast one upper letter, number and special character';
+  // } else if (value.length < 6) {
+  //   return "Password must be atleast 6 characters long or more";
+  // }
 }
 
 validateConfirmPassword(value) {

@@ -26,6 +26,8 @@ class _LoginState extends State<Login> {
   bool hasError = false;
   var errors;
   void handlePressedLogin() async {
+    Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Chat()));
     setState(() {
       loading = true;
     });

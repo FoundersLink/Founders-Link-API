@@ -330,4 +330,9 @@ class _ActiveLobbiesState extends State<ActiveLobbies> {
       ),
     );
   }
+
+  Future<void> _handleMicPermission() {
+    // final status = Permission.microphone.request();
+    // print(status);
+  }
 }

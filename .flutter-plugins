@@ -1,8 +1,11 @@
 # This is a generated file; do not edit or check into version control.
+agora_rtc_engine=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/agora_rtc_engine-3.3.3/
+agora_rtm=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/agora_rtm-0.9.14/
 path_provider=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.28/
 path_provider_linux=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/
 path_provider_macos=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+8/
 path_provider_windows=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+3/
+permission_handler=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/permission_handler-5.1.0+2/
 shared_preferences=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.12+4/
 shared_preferences_linux=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+4/
 shared_preferences_macos=/Users/jaja/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+11/

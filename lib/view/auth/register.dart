@@ -36,7 +36,6 @@ class _RegisterState extends State<Register> {
     print(_firstName.text.toString());
     print(_email.text.toString());
     print(_pass.text.toString());
-    loading = false;
     try {
       var baseUrl = 'https://soma-tec.herokuapp.com';
       var url = '$baseUrl/user/signup';
@@ -77,8 +76,8 @@ class _RegisterState extends State<Register> {
         if (response.statusCode == 201) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           setState(() {
-          prefs.setString('token', body['token']);
-        });
+            prefs.setString('token', body['token']);
+          });
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => CheckEmail()));
         }
