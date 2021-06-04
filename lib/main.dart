@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:founderslink/utils/ui/founderlinklayout.dart';
 import 'package:founderslink/view/auth/register.dart';
 
 void main() {

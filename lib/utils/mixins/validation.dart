@@ -12,6 +12,12 @@ validateLastName(value) {
   }
   return null;
 }
+validateLocation(value) {
+  if (value == null || value.isEmpty) {
+    return 'Please provide your last name';
+  }
+  return null;
+}
 
 validateEmail(value) {
   Pattern pattern =

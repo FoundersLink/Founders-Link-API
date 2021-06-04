@@ -22,13 +22,7 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> with TickerProviderStateMixin {
   // String _lastSelected = 'TAB: 0';
   int selectedpage = 0;
-  final _pageOptions = [
-    ChatHomePage(),
-    Companies(),
-    Home(),
-    People(),
-    Resource()
-  ];
+  final _pageOptions = [Home(), ChatHomePage(), Home(), People(), Resource()];
 
   void _selectedTab(int index) {
     setState(() {
@@ -115,10 +109,10 @@ class _ChatState extends State<Chat> with TickerProviderStateMixin {
         notchedShape: CircularNotchedRectangle(),
         onTabSelected: _selectedTab,
         items: [
-          FABBottomAppBarItem(iconData: Icons.textsms_outlined, text: "chats"),
-          FABBottomAppBarItem(iconData: Icons.business, text: "companies"),
+          FABBottomAppBarItem(iconData: Icons.home, text: "Home"),
+          FABBottomAppBarItem(iconData: Icons.textsms_outlined, text: "Chats"),
           FABBottomAppBarItem(iconData: Icons.people, text: "people"),
-          FABBottomAppBarItem(iconData: Icons.grid_on, text: "resources"),
+          FABBottomAppBarItem(iconData: Icons.person_outlined, text: "profile"),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
